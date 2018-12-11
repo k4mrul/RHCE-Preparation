@@ -1,0 +1,512 @@
+===================Basic=========================
+
+//Variable:
+
+#!/bin/bash
+x=12
+echo "The value of variable x is $x"
+
+//if ... else ... elif ... fi:
+
+#!/bin/bash
+if [ -f /etc/foo ]; then    #for variable: if [ "$name" -eq 5 ]; then 
+    # file exists, so copy and print a message.
+    cp /etc/foo .
+    echo "Done."
+else
+    # file does NOT exist, so we print a message and exit.
+    echo "This file does not exist."
+    exit
+fi
+
+Command Line Parameters for ' test ':
+-d
+check if the file is a directory
+-e
+check if the file exists
+-f
+check if the file is a regular file
+-g
+check if the file has SGID permissions
+-r
+check if the file is readable
+-s
+check if the file's size is not 0
+-u
+check if the file has SUID permissions
+-w
+check if the file is writetable
+-x
+check if the file is executable
+
+
+//while ... do ... done:
+#!/bin/bash
+while true; do   --> or simply: while :; do
+   echo "Press CTRL-C to quit."
+done
+
+#!/bin/bash
+x=0;     # initialize x to 0
+while [ "$x" -le 10 ]; do
+    echo "Current value of x: $x"
+    # increment the value of x:
+    x=$(expr $x + 1)
+    sleep 1
+done
+
+
+Checks equality between numbers:
+x -eq y
+Check is x is equal to y
+x -ne y
+Check if x is not equal to y
+x -gt y
+Check if x is greater than y
+x -lt y
+Check if x is less than y
+
+Checks equality between strings:
+x = y
+Check if x is the same as y
+x != y
+Check if x is not the same as y
+-n x
+Evaluates to true if x is not null
+-z x
+Evaluates to true if x is null
+
+
+//Running a command:
+#!/bin/bash
+echo "I am $(whoami)."
+
+
+//until ... do ... done:
+#!/bin/bash
+x=0
+until [ "$x" -ge 10 ]; do
+    echo "Current value of x: $x"
+    x=$(expr $x + 1)
+    sleep 1
+done
+
+
+
+//for ... in ... do ... done:
+#!/bin/bash
+echo -n "Checking system for errors"   -->  The -n option to echo prevents a new line from automatically being added
+for dots in 1 2 3 4 5 6 7 8 9 10; do
+    echo -n "."
+done
+echo "System clean."
+
+
+#!/bin/bash
+for file in *; do
+    echo "Adding .html extension to $file..."
+    mv $file $file.html
+    sleep 1
+done
+
+
+
+//case ... in ... esac:
+
+#!/bin/bash
+x=5     # initialize x to 5
+# now check the value of x:
+case $x in
+   0) echo "Value of x is 0."
+      ;;
+   5) echo "Value of x is 5."
+      ;;
+   9) echo "Value of x is 9."
+      ;;
+   *) echo "Unrecognized value."
+esac
+
+
+//Quotation Marks: Quotation marks play a big part in shell scripting. There are three types of quotation marks. They are the double quote: ", the forward quote: ', and the back quote: `.
+
+$ mkdir hello world
+$ ls -F
+hello/     world/
+
+
+$ mkdir "hello world"
+$ ls -F
+hello/     hello world/     world/
+
+==>If a variable is enclosed in double quotes, its value will be evaluated. If it is enclosed in forward quotes, its value will not be evaluated:
+
+#!/bin/bash
+x=5     # initialize x to 5
+# use double quotes
+echo "Using double quotes, the value of x is: $x"
+# use forward quotes
+echo 'Using forward quotes, the value of x is: $x'
+
+
+
+//Arithmetic with Bash:
+#!/bin/bash
+x=8     # initialize x to 8
+y=4     # initialize y to 4
+# now we assign the sum of x and y to z:
+z=$(($x + $y))
+echo "The sum of $x + $y is $z"
+
+
+Addition   
++
+Subtraction
+-
+Multiplication
+*
+Division
+/
+Modulus
+%
+
+
+#!/bin/bash
+x=5   # initialize x to 5
+y=3   # initialize y to 3
+add=$(($x + $y))   # add the values of x and y and assign it to variable add
+sub=$(($x - $y))   # subtract the values of x and y and assign it to variable sub
+mul=$(($x * $y))   # multiply the values of x and y and assign it to variable mul
+div=$(($x / $y))   # divide the values of x and y and assign it to variable div
+mod=$(($x % $y))   # get the remainder of x / y and assign it to variable mod
+
+
+# print out the answers:
+echo "Sum: $add"
+echo "Difference: $sub"
+echo "Product: $mul"
+echo "Quotient: $div"
+echo "Remainder: $mod"
+
+
+//Reading User Input:
+#!/bin/bash
+# gets the name of the user and prints a greeting
+echo -n "Enter your name: "
+read user_name
+echo "Hello $user_name!"
+
+
+#!/bin/bash
+# gets the name of the user and prints a greeting
+echo -n "Enter your name: "
+read user_name
+# the user did not enter anything:
+if [ -z "$user_name" ]; then
+    echo "You did not tell me your name!"
+    exit
+fi
+echo "Hello $user_name!"
+
+
+//Functions:
+#!/bin/bash
+# function hello() just prints a message
+hello()
+{
+    echo "You are in function hello()"
+}
+
+echo "Calling function hello()..."
+# call the hello() function:
+hello
+echo "You are now out of function hello()"
+
+
+=>Here is an alternative way to write function hello()
+
+function hello()
+{
+    echo "You are in function hello()"
+}
+
+NOTE: Functions should always be defined before they are called.
+
+#!/bin/bash
+# admin.sh - administrative tool
+# function new_user() creates a new user account
+new_user()
+{
+    echo "Preparing to add a new user..."
+    sleep 2
+    adduser     # run the adduser program
+}
+
+echo "1. Add user"
+echo "2. Exit"
+
+echo "Enter your choice: "
+read choice
+
+
+case $choice in
+    1) new_user     # call the new_user() function
+       ;;
+    *) exit
+       ;;
+esac
+
+
+//Trapping:
+
+
+
+
+====================it fountain==================
+
+#!/bin/sh
+varl-"Passed"
+var2="RHCE"
+if [ "$#" -ne 1 ]; then
+echo "Usage: scriptl windows/linux"
+exit 1
+elif [ "$1" = "windows" ]; then
+echo $1
+elif [ "$1" = "linux" ]; then
+echo $1
+else
+echo "Usage: scriptl windows/linux"
+fi
+
+
+
+#!/bin/sh
+if [ "$#" -ne 1 ]; then
+echo "Usage: scriptz director""
+exit 1
+fi
+if [ -d $1 ]; then
+for i in $(ls $1): do
+echo $i
+done
+else
+echo "not a valid directory"
+fi
+
+
+
+#!/bin/sh
+echo Please enter your none:
+read nanme
+echo hello Sread
+
+
+
+#!/bin/sh
+if [ "$#" -ne ]; then
+echo "Usage: scriptd filenane"
+exit 1
+fi
+if [ -f $1 ]; then
+while read line; do
+echo $line
+done < $1
+else
+echo "Usage: script4 filename"
+fi
+
+
+
+
+#!/bin/sh
+if [ "$#" -ne 1 ]; then
+echo "Usage: script4 filename"
+exit 1
+fi
+if [ -f $1 ]; then
+while read line; do
+echo $line
+done < $1
+else
+echo "Usage: script4 filename"
+fi
+
+
+
+
+=========================ques_with_sol_1================
+
+
+#!/bin/bash
+if [ "$#" == 0 ]; then
+echo "Invalid Argument"
+exit
+elif [ $1 == userlist ]; then
+for i in $(more /root/userlist)
+do
+useradd -s /bin/false "$i"
+done
+else
+echo "Invalid output file"
+fi
+
+
+
+#!bin/bash
+if [ $# == 0 ]; then
+echo "Invalid Argument"
+elif [ $1 == python ]; then
+echo "print"
+elif [ $1 == print ]; then
+echo "python"
+else
+echo "python|print"
+fi
+
+
+
+
+
+===========================Sandar van vaugt=====================
+//For loop
+#!/bin/bash
+#run this script with a few arguments
+echo you have entered $# arguments
+for i in "@"
+do
+echo $i
+done
+exit 0
+
+
+
+#!/bin/bash
+for (( counter=100; counter>1; counter- )); do
+echo $counter
+done
+exit 0
+
+
+#!/bin/bash
+for i in {200..221}; do ping -c 1 192.168.4.$i >/dev/null && echo 192.168.4.$i is up; done
+
+
+//While
+#while true; do true; done &
+
+#!/bin/bash
+#usage: monitor <processname>
+
+while ps aux | grep $1 | grep -v grep | grep -v bash > /dev/tty11
+do
+sleep 1
+done
+clear
+echo your process has stopped
+logger $1 is no longer present
+
+
+#!/bin/bash
+until users | grep $1 > /dev/null
+do
+echo $1 is not logged in yet
+sleep 5
+done
+echo $1 has just logged in
+mail -s "$1 has just logged in" root < .   --> here . means end
+
+
+//Case
+#!/bin/bash
+case "$1" in
+start)
+echo now starting $0;;
+stop)
+rm -f $lockfi1e
+echo now stopping $0;;
+restart)
+echo restarting $0;;
+reload)
+echo reloading $0;;
+status)
+echo showing the status of $0
+echo $0 is up
+
+Echo I don\'t know what you\'re trying to do
+echo 'Usage: $0 start|stop|restart|reload|status'
+esac
+
+
+//Shell lab:
+#!/bin/bash
+if [ -z $1 ]
+then
+echo ""enter the amount of minutes""
+read COUNTER
+else
+COUNTER=$1
+fi
+COUNTER=$(( COUNTER * 60 ) )
+minusone(){
+COUNTER=$(( COUNTER - 1 ) )
+sleep 1
+}
+while [ $COUNTER -gt 1 ]
+do
+echo $COUNTER seconds remaining
+minusone
+done
+[ $COUNTER = 1 ] && echo one second remaining
+minusone
+[ $COUNTER = 0 ] && echo time is up
+
+
+=>Tips:
+
+-man test
+-write variable in uppercase (good practice) [Video: 179]
+-$# used to count the no of argument [Video: 180]
+-$@ colletion of all the arguments [Video: 180]
+-\$1 in script means we want to show dollar sign, script don't have to do anything with that. Or just wrap it double colon [Video: 181]
+-for i in {200..221} means, 200 to 221 [Video: 182]
+-"while true; do true; done &"  --> run this in bash command. You will see a process will be created. To exit it:
+#fg
+
+Now press Ctrl+C to cancel this process. Otherwise your cpu will be utilized 100% by this. However this is a good command for performance test [Video: 183]
+
+-case [Video: 184]
+
+
+
+==================Root users==============================
+
+#!/bin/bash
+if [ -z "$1" ]; then			#-z means not, if there is no argument
+  echo Argument is missing.
+  exit 128				#exit status/code. 0 means successful. Other than 0 means error 
+elif [ "$1" == bye ]; then
+  echo cya
+else 
+  echo "Invalid argument." >&2          # redirecting stdout to stderr 
+fi
+
+
+
+
+#!/bin/bash
+if [ -z "$1" ]; then
+   echo "users userlist"
+   echo "users userinfo <USERNAME>"
+elif [ "$1" == userlist ]; then
+   cat /etc/passwd | grep "/bin/bash" | cut -d: -f1 | sort   #cut first column
+elif [ "$1" == userinfo ]; then
+   if [ -z "$2" ]; then
+       echo "Please specify username"
+       exit 128
+   elif [ -n "$2" ]; then
+       if [ -z $(grep "$2" /etc/passwd) ]; then
+           echo "Invalid user"
+       else
+           grep "$2" /etc/passwd | cut -d: -f3
+       fi
+   fi	
+fi
