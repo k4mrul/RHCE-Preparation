@@ -1,0 +1,111 @@
+=====================Setup mariadb
+#yum install mariadb mariadb-server 
+#systemctl start mariadb
+#systemctl enable mariadb
+
+=====================Securing
+#mysql_secure_installation
+
+=====================Login
+#mysql -u root -pPassword
+
+
+=====================Manage users
+[(none)]> create user john@localhost identified by 'pass123';
+[(none)]> grant all privileges on test.* to john@localhost;
+[(none)]> flush privileges;
+[(none)]> show grants for john@localhost;
+[(none)]> select user,host from mysql.user;
+
+
+=====================To delete the user
+[(none)]> drop user 'john'@'localhost'
+
+
+=====================Creating and using database
+[(none)]> create database test;
+>use users;[
+
+
+=====================Creating table
+[users]> create table name (firstname VARCHAR(50) NOT NULL, lastname VARCHAR(50) NOT NULL, middlename VARCHAR(50));   --> if you type in lowercase, it will also work. NOT NULL constraint enforces a field to always contain a value, which means that you cannot insert a new record, or update a record without adding a value to this field.
+[users]> show tables;    //showing all the tables
+[users]> describe name;  //showing database schema
+
+
+=====================Inserting data into table
+//Inserting data into table
+[users]> insert into name (firstname, lastname) values ("bob", "smith");
+
+//Showing all the data from table "name"
+[users]> select * from name;   
+
+//Changing a value (lastname)
+[users]> update name set lastname="test" where lastname="smith";
+
+//Seeing the result
+[users]> select * from name;
+
+//Deleting all info whose firstname is bob
+[users]> delete from name where firstname="bob";
+
+//Verify
+[users]> select * from name;   
+
+//Deleting table
+[users]> drop table name;   // it will delete table and all data within it
+[users]> show tables;
+
+
+//Seeing database
+[users]> show databases;
+
+//Deleting database 
+[users]> drop database users;
+
+//Seeing database
+[users]> show databases;
+
+
+
+======================Dump/backup and restore database
+//Dumping database
+#mysqldump -u root -p test > /root/test.sql    --> dumping database test to /root/test.sql file
+
+//Verify:
+#less /root/test.sql   --> database in clear text. Change necessary permission so that only root user can read that file (by default it has been set)
+
+
+//Dumping all database
+#mysqldump -u root -p --all-databases > /root/all.sql    --> dumping all the databases. However, it is not very useful database backup as you can't restore database individually
+
+#rm -f all.sql
+
+
+//Dropping database
+#mysql -u root -p
+>drop database test;
+>show databases;
+>exit
+
+
+//Restoring database
+#mysql -u root -p
+>create database test;
+>exit
+
+#mysql -u root -p test < /root/test.sql
+#rm -f test.sql
+
+
+
+=======================Things to remember
+-Enable the ‘mariadb’ service after installation so that it automatically starts on system boot.
+-Memorise the package names ‘mariadb-server’ and ‘mariadb’ for installation with yum.
+-Run ‘mysql_secure_installation’ to easily configure MariaDB.
+
+-The ‘mysqldump’ command is used to dump the data out, while ‘mysql’ is used to import or restore the dump into a MariaDB database.
+-Further documentation can be viewed on the manual page by running ‘man mysqldump’.
+-The database name must already exist in MariaDB before you can import it.
+
+-Practice these basic queries in different scenarios until you can use them without any assistance.
