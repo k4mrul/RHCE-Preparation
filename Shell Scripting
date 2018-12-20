@@ -338,15 +338,14 @@ fi
 
 #!/bin/bash
 if [ "$#" == 0 ]; then
-echo "Invalid Argument"
-exit
-elif [ $1 == userlist ]; then
-for i in $(more /root/userlist)
-do
-useradd -s /bin/false "$i"
-done
+        echo "Usage: /root/newusers users.txt"
+elif [ "$1" == users.txt ]; then
+#       for i in $(more /root/users.txt); do
+        for i in $(less /root/users.txt); do
+                useradd -s /sbin/nologin "$i"
+        done
 else
-echo "Invalid output file"
+        echo "Input file not found"
 fi
 
 
